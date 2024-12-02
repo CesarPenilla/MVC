@@ -1,4 +1,5 @@
 import mariadb as sql
+from tkinter import messagebox
 
 class ConexionDB():
     def __init__(self):
@@ -10,13 +11,16 @@ class ConexionDB():
         self.__conection = None
 
     def crearConexion(self):
-        self.__conection = sql.connect(
-            host = self.__host,
-            user = self.__user,
-            password = self.__password,
-            port = self.__port,
-            database = self.__database
-        )
+        try:
+            self.__conection = sql.connect(
+                host = self.__host,
+                user = self.__user,
+                password = self.__password,
+                port = self.__port,
+                database = self.__database
+            )
+        except sql.OperationalError as e:
+            messagebox.showwarning("Advertencia", "Error de conexión al Servidor de Bases de Datos\nVerifique su conexión a internet o contacte al administrador del Sistema...")
 
     def cerrarConexion(self):
         if self.__conection:
